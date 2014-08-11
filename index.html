@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html ng-app="stopwatch" manifest="manifest.appcache">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+    <title>Stopwatch</title>
+
+    <!-- Optionally, add "user-scalable=no" -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Regular meta headers -->
+    <meta name="author" content="">
+    <meta name="revisit-after" content="1 days">
+    <meta name="robots" content="FOLLOW,INDEX">
+    <meta name="description" content="Count up or down with the Stopwatch">
+    <meta name="keywords" content="stopwatch countdown">
+
+    <!-- Schema.org -->
+    <meta itemprop="name" content="Stopwatch">
+    <meta itemprop="description" content="Count up or down with the Stopwatch">
+    <meta itemprop="image" content="img/icon/150.png">
+
+    <!-- Open graph -->
+    <meta property="og:title" content="Count up or down with the Stopwatch">
+    <meta property="og:type" content="app">
+    <meta property="og:site_name" content="Stopwatch">
+    <meta property="og:image" content="img/icon/150.png" />
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" href="img/icon/60.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="img/icon/76.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="img/icon/120.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="img/icon/152.png">
+    <link rel="shortcut icon" sizes="128x128" href="img/icon/128.png">
+    <link rel="shortcut icon" sizes="196x196" href="img/icon/196.png">
+
+    <!-- App flags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Stopwatch"/>
+
+    <!-- Google Fonts if you need -->
+    <!--<link href="https://fonts.googleapis.com/css?family=" rel="stylesheet" type="text/css">-->
+
+    <link rel="stylesheet" href="css/normalize.min.css">
+    <link rel="stylesheet" href="css/octicons/octicons.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="css/app.css">
+  </head>
+  <body>
+
+    <!-- This is the "standard" header and container, feel free to disregard it though -->
+    <div class="container" ng-controller="stopwatch" ng-cloak>
+      <div class="header clearfix">
+        <span class="pull-right reportbug">
+          <a href="https://github.com/WebUtils/Stopwatch/issues" target="_blank"><span class="octicon mega-octicon octicon-bug"></span></a>
+        </span>
+        <img src="img/icon/196.png" alt="launcher icon">
+        <h1>WebUtils Stopwatch</h1>
+      </div>
+
+      <div class="choose" ng-show="chooseTime">
+        <button class="btn btn-default btn-lg" ng-click="timeSet()">
+          <span class="octicon octicon-check"></span>
+          Done
+        </button>
+        <div class="chooser">
+          <div class="row">
+            <div class="cell">
+              <button class="btn btn-default btn-lg" ng-click="addHour()">
+                <span class="octicon octicon-chevron-up"></span>
+              </button>
+            </div>
+            <div class="cell">
+              <button class="btn btn-default btn-lg" ng-click="addMinute()">
+                <span class="octicon octicon-chevron-up"></span>
+              </button>
+            </div>
+            <div class="cell">
+              <button class="btn btn-default btn-lg" ng-click="addSecond()">
+                <span class="octicon octicon-chevron-up"></span>
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="cell">
+              Hours<br />
+              <strong>{{moment(time*1000).format("HH")}}</strong>
+            </div>
+            <div class="cell">
+              Minutes<br />
+              <strong>{{moment(time*1000).format("mm")}}</strong>
+            </div>
+            <div class="cell">
+              Seconds<br />
+              <strong>{{moment(time*1000).format("ss")}}</strong>
+            </div>
+          </div>
+          <div class="row">
+            <div class="cell">
+              <button class="btn btn-default btn-lg" ng-click="removeHour()">
+                <span class="octicon octicon-chevron-down"></span>
+              </button>
+            </div>
+            <div class="cell">
+              <button class="btn btn-default btn-lg" ng-click="removeMinute()">
+                <span class="octicon octicon-chevron-down"></span>
+              </button>
+            </div>
+            <div class="cell">
+              <button class="btn btn-default btn-lg" ng-click="removeSecond()">
+                <span class="octicon octicon-chevron-down"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="btn-toolbar" ng-show="!chooseTime">
+        <div class="btn-group">
+          <button class="btn btn-default btn-lg" ng-click="start()">
+            <span class="octicon octicon-playback-play"></span>
+          </button>
+          <button class="btn btn-default btn-lg" ng-click="stop()">
+            <span class="octicon octicon-playback-pause"></span>
+          </button>
+          <button class="btn btn-default btn-lg" ng-click="reset()">
+            <span class="octicon octicon-primitive-square"></span>
+          </button>
+        </div>
+        <div class="btn-group">
+          <button class="btn btn-default btn-lg" ng-disabled="countDown == false" ng-click="countDown = false">
+            <span class="octicon octicon-arrow-up"></span>
+            Timer
+          </button>
+          <button class="btn btn-default btn-lg" ng-disabled="countDown == true" ng-click="goToCountdown()">
+            <span class="octicon octicon-arrow-down"></span>
+            Countdown
+          </button>
+        </div>
+        <div class="btn-group">
+          <buton class="btn btn-default btn-lg" ng-click="setTime()">
+            <span class="octicon octicon-clock"></span>
+            Set time
+          </button>
+        </div>
+      </div>
+
+      <div class="display" ng-show="!chooseTime">
+        {{moment(time*1000).format("HH:mm:ss.SS")}}
+      </div>
+
+    </div>
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.21/angular-route.min.js"></script>
+
+    <script src="js/lib/ca-helpers.js"></script>
+    <script src="js/lib/angular-appcache.js"></script>
+    <script src="js/lib/moment.min.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-XXXXXX-XX', 'auto');
+      // Uncomment to enable more detailed user tracking
+      //ga('require', 'displayfeatures');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>
