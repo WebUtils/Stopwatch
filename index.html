@@ -120,18 +120,8 @@
       </div>
 
       <div class="btn-toolbar" ng-show="!chooseTime">
-        <div class="btn-group">
-          <button class="btn btn-default btn-lg" ng-click="start()">
-            <span class="octicon octicon-playback-play"></span>
-          </button>
-          <button class="btn btn-default btn-lg" ng-click="stop()">
-            <span class="octicon octicon-playback-pause"></span>
-          </button>
-          <button class="btn btn-default btn-lg" ng-click="reset()">
-            <span class="octicon octicon-primitive-square"></span>
-          </button>
-        </div>
-        <div class="btn-group">
+
+        <div class="btn-group app-mode-group full-width">
           <button class="btn btn-default btn-lg" ng-disabled="countDown == false" ng-click="countDown = false">
             <span class="octicon octicon-arrow-up"></span>
             Timer
@@ -141,16 +131,30 @@
             Countdown
           </button>
         </div>
+
+        <div class="display" ng-show="!chooseTime">
+          {{moment(time*1000).format("HH:mm:ss.SS")}}
+        </div>
+
         <div class="btn-group">
           <buton class="btn btn-default btn-lg" ng-click="setTime()">
             <span class="octicon octicon-clock"></span>
             Set time
           </button>
         </div>
-      </div>
 
-      <div class="display" ng-show="!chooseTime">
-        {{moment(time*1000).format("HH:mm:ss.SS")}}
+        <div class="btn-group controls-group full-width">
+          <button class="btn btn-default btn-lg" ng-click="start()">
+            <span class="octicon octicon-playback-play"></span>
+          </button>
+          <button class="btn btn-default btn-lg" ng-click="stop()">
+            <span class="octicon octicon-playback-pause"></span>
+          </button>
+          <button class="btn btn-default btn-lg" ng-click="reset()">
+            <span class="octicon octicon-trashcan"></span>
+          </button>
+        </div>
+
       </div>
 
     </div>
