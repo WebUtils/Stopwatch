@@ -118,3 +118,33 @@ a:active {
 .btn-toolbar .btn-group {
   margin-top: 20px;
 }
+
+.full-width {
+  width: 100%;
+  max-width: 480px;
+}
+
+.controls-group button {
+  width: 33.3333%
+}
+
+.btn-toolbar .app-mode-group.btn-group {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.app-mode-group button {
+  color: #222;
+  font-weight: normal;
+}
+
+
+.app-mode-group button[disabled] {
+  background: #e6e6e6;
+  color: #000;
+  font-weight: bold;
+}
+
+.app-mode-group button {
+  width: 50%
+}
